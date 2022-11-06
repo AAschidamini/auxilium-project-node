@@ -1,0 +1,26 @@
+{
+  "name": "auxilium-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "keywords": [],
+  "author": "Andriele Aschidamini",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "dateformat": "^5.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.5",
+    "nodemailer": "^6.8.0",
+    "nodemailer-express-handlebars": "^5.0.0",
+    "path": "^0.12.7",
+    "socket.io": "^4.5.3"
+  }
+}
