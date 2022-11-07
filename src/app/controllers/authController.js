@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 
     return res.send({ user });
   } catch (err) {
-    return res.status(400).send({ error: "Error list user" });
+    return res.status(400).send({ error: "Erro ao listar usuários" });
   }
 });
 
@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
 
     return res.send({ user });
   } catch (err) {
-    return res.status(400).send({ error: "Error list user" });
+    return res.status(400).send({ error: "Erro ao listar usuário" });
   }
 });
 
@@ -45,7 +45,10 @@ router.post("/register", async (req, res) => {
   try {
     const { email } = req.body;
     if (await User.findOne({ email }))
-      return res.status(400).send({ error: "User already exists" });
+      return res.status(400).send({
+        error:
+          "E-mail já cadastrado. Recupere sua senha ou tente outro e-mail.",
+      });
 
     const user = await User.create(req.body);
 
@@ -53,7 +56,9 @@ router.post("/register", async (req, res) => {
 
     return res.send({ user, token: generateToken({ id: user.id }) });
   } catch (err) {
-    return res.status(400).send({ error: "Registration failed" });
+    return res.status(400).send({
+      error: "Não foi possível realizar o cadastro, tente novamente.",
+    });
   }
 });
 
@@ -63,10 +68,10 @@ router.post("/authenticate", async (req, res) => {
 
   const user = await User.findOne({ email }).select("+password");
 
-  if (!user) return res.status(400).send({ error: "User not found" });
+  if (!user) return res.status(400).send({ error: "E-mail não encontrado." });
 
   if (!(await bcrypt.compare(password, user.password)))
-    return res.status(400).send({ error: "Invalid password" });
+    return res.status(400).send({ error: "Senha inválida" });
 
   user.password = undefined;
 
@@ -80,7 +85,7 @@ router.post("/forgot_password", async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(400).send({ error: "User not found" });
+    if (!user) return res.status(400).send({ error: "E-mail inválido." });
 
     const token = crypto.randomBytes(3).toString("hex");
 
@@ -104,15 +109,15 @@ router.post("/forgot_password", async (req, res) => {
       },
       (err) => {
         if (err)
-          return res
-            .status(400)
-            .send({ error: `Cannot send forgot password email ${err}` });
+          return res.status(400).send({
+            error: "Não foi possível enviar o e-mail de recuperação de senha.",
+          });
 
         return res.send();
       }
     );
   } catch (err) {
-    res.status(400).send({ error: "Erro on forgot password, try again" });
+    res.status(400).send({ error: "Erro ao alterar a senha." });
   }
 });
 
@@ -143,7 +148,9 @@ router.post("/reset_password", async (req, res) => {
 
     res.send();
   } catch (err) {
-    res.status(400).send({ error: "Cannot reset password, try again" });
+    res.status(400).send({
+      error: "Não foi possível recuperar sua senha, tente novamente.",
+    });
   }
 });
 
@@ -161,7 +168,7 @@ router.put("/:id", async (req, res) => {
     return res.send({ user });
   } catch (err) {
     console.log(err);
-    return res.status(400).send({ error: "Error edit user." });
+    return res.status(400).send({ error: "Não foi possível editar os dados." });
   }
 });
 
@@ -179,7 +186,7 @@ router.put("/chat/:id", async (req, res) => {
     return res.send({ user });
   } catch (err) {
     console.log(err);
-    return res.status(400).send({ error: "Error edit user." });
+    return res.status(400).send({ error: "Não foi possível logar no chat." });
   }
 });
 
@@ -191,7 +198,9 @@ router.delete("/:id", async (req, res) => {
     return res.send();
   } catch (err) {
     console.log(err);
-    return res.status(400).send({ error: "Error delete user" });
+    return res
+      .status(400)
+      .send({ error: "Não foi possível excluir o seu usuário." });
   }
 });
 
