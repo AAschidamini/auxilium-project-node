@@ -97,7 +97,7 @@ router.post("/forgot_password", async (req, res) => {
     mailer.sendMail(
       {
         to: email,
-        from: "no-reply@auxilium.com",
+        from: "andrieleaschi@gmail.com",
         subject: "Recuperação de senha",
         template: "auth/forgot_password",
         context: { token },
@@ -106,7 +106,7 @@ router.post("/forgot_password", async (req, res) => {
         if (err)
           return res
             .status(400)
-            .send({ error: "Cannot send forgot password email" });
+            .send({ error: `Cannot send forgot password email ${err}` });
 
         return res.send();
       }
