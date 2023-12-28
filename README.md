@@ -2,6 +2,8 @@
 # auxilium-project-node - API
 API do projeto Auxilium
 
+OBS: Para rodar o projeto é necessário ter o Node v14 instalado na máquina.
+
 
 ## Project setup
 
